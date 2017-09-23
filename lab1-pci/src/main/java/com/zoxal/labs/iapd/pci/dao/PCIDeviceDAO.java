@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,20 +35,7 @@ public class PCIDeviceDAO {
                 + "vendors.vendor_id, vendors.vendor_name_short, vendors.vendor_name_full "
                 + "from DEVICES LEFT OUTER JOIN VENDORS on (DEVICES.DEVICE_ID = VENDORS.VENDOR_ID) "
                 + "where DEVICE_ID = \'" + deviceId + "\'";
-        log.trace("Running sql query:\n {}", query);
-        ResultSet resultSet = connection.createStatement().executeQuery(query);
-        if (!resultSet.next()) {
-            log.warn("Can not find device with id \'{}\' in database", deviceId);
-            return null;
-        }
-        PCIDevice device = new PCIDevice();
-        device.setDeviceId(resultSet.getString(1));
-        device.setDeviceShortName(resultSet.getString(2));
-        device.setDeviceFullName(resultSet.getString(3));
-        device.setVendorId(resultSet.getString(4));
-        device.setVendorShortName(resultSet.getString(5));
-        device.setVendorFullName(resultSet.getString(6));
-        return device;
+        return getPCIDevicesByQuery(query).get(0);
     }
     public List<PCIDevice> getPCIDevices(List<String> devicesId) throws SQLException {
         StringBuilder query = new StringBuilder();
@@ -67,31 +51,23 @@ public class PCIDeviceDAO {
         query.append(stringJoiner.toString());
         query.append(")");
 
-        log.trace("Running sql query:\n {}", query.toString());
-        ResultSet resultSet = connection.createStatement().executeQuery(query.toString());
-        List<PCIDevice> devices = new ArrayList<>();
-        while (resultSet.next()) {
-            devices.add(fillDevice(resultSet));
-        }
-        return devices;
+        return getPCIDevicesByQuery(query.toString());
     }
 
     public List<PCIDevice> getPCIDevices(Map<String, String> devicesMap) throws SQLException {
-        String query;
-//        try (InputStream is = this.getClass().getClassLoader()
-//                .getResourceAsStream("select_devices.sql")) {
-//            query = IOUtils.toString(is, StandardCharsets.UTF_8);
-//        } catch (IOException e) {
-            query = getQuery(devicesMap);
-//        }
+        return getPCIDevicesByQuery(getQuery(devicesMap));
+    }
 
+    private List<PCIDevice> getPCIDevicesByQuery(String query) throws SQLException {
         log.trace("Running sql query:\n {}", query);
-        ResultSet resultSet = connection.createStatement().executeQuery(query);
-        List<PCIDevice> devices = new ArrayList<>();
-        while (resultSet.next()) {
-            devices.add(fillDevice(resultSet));
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            List<PCIDevice> devices = new ArrayList<>();
+            while (resultSet.next()) {
+                devices.add(fillDevice(resultSet));
+            }
+            return devices;
         }
-        return devices;
     }
 
     private PCIDevice fillDevice(ResultSet resultSet) throws SQLException {

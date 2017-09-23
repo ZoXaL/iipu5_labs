@@ -10,6 +10,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.*;
 
 public class LinuxPCIDataExtractor implements PCIDataExtractor {
@@ -19,10 +20,6 @@ public class LinuxPCIDataExtractor implements PCIDataExtractor {
 
     public LinuxPCIDataExtractor() throws Exception {
         pciDeviceDAO = new PCIDeviceDAO();
-    }
-
-    public static void main(String[] args) throws Exception {
-        new LinuxPCIDataExtractor().getPCIDevices();
     }
 
     @Override
@@ -40,23 +37,23 @@ public class LinuxPCIDataExtractor implements PCIDataExtractor {
 //        pciDevices.forEach(file -> System.out.println(file.toString()));
         Map<String, String> pciDevicesMap = new HashMap<>();
         for (File pciDeviceFile : pciDevices) {
-            InputStream is = new FileInputStream(pciDeviceFile);
-            byte[] buffer = new byte[2];
-            byte[] buffer2 = new byte[2];
+            try (InputStream is = new FileInputStream(pciDeviceFile)) {
+                byte[] buffer = new byte[2];
+                byte[] buffer2 = new byte[2];
 
-            is.read(buffer);
-            buffer2[0] = buffer[1];
-            buffer2[1] = buffer[0];
+                is.read(buffer);
+                buffer2[0] = buffer[1];
+                buffer2[1] = buffer[0];
 
-            String deviceId = DatatypeConverter.printHexBinary(buffer2);
+                String deviceId = DatatypeConverter.printHexBinary(buffer2);
 
-            is.read(buffer);
-            buffer2[0] = buffer[1];
-            buffer2[1] = buffer[0];
-            String vendorId = DatatypeConverter.printHexBinary(buffer2);
-            is.close();
-            log.debug("{} - {}", deviceId, vendorId);
-            pciDevicesMap.put(deviceId, vendorId);
+                is.read(buffer);
+                buffer2[0] = buffer[1];
+                buffer2[1] = buffer[0];
+                String vendorId = DatatypeConverter.printHexBinary(buffer2);
+                log.debug("{} - {}", deviceId, vendorId);
+                pciDevicesMap.put(deviceId, vendorId);
+            }
         }
         return pciDeviceDAO.getPCIDevices(pciDevicesMap);
     }

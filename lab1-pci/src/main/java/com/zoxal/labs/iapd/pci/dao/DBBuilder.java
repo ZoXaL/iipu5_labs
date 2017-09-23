@@ -69,13 +69,12 @@ public class DBBuilder implements AutoCloseable {
                         "PRIMARY KEY (VENDOR_ID, DEVICE_ID)" +
                         ")";
 
-        Statement createVendorsTableStatement = connection.createStatement();
-        createVendorsTableStatement.execute(createVendorsTableStatementQuery);
-        createVendorsTableStatement.close();
-
-        Statement createDeviceTableStatement = connection.createStatement();
-        createDeviceTableStatement.execute(createDeviceTableStatementQuery);
-        createDeviceTableStatement.close();
+        try (Statement createVendorsTableStatement = connection.createStatement();
+             Statement createDeviceTableStatement = connection.createStatement();
+        ) {
+            createVendorsTableStatement.execute(createVendorsTableStatementQuery);
+            createDeviceTableStatement.execute(createDeviceTableStatementQuery);
+        }
     }
 
     protected void fillDatabase() throws SQLException {
@@ -165,7 +164,6 @@ public class DBBuilder implements AutoCloseable {
                     deviceDataMatcher.group("shortName"),
                     deviceDataMatcher.group("fullName")
             );
-            if (deviceDataMatcher.group("deviceId").length() > 6) continue;
             updateDevicesStatement.setString(1, deviceDataMatcher.group("vendorId"));
             updateDevicesStatement.setString(2, deviceDataMatcher.group("deviceId"));
             updateDevicesStatement.setString(3, deviceDataMatcher.group("shortName"));
@@ -194,16 +192,13 @@ public class DBBuilder implements AutoCloseable {
                 + "'derby.stream.error.file', "
                 + "'derby_error.log'"
                 + ")";
-
-        CallableStatement setTmpDirectoryProperty =
-                connection.prepareCall(setTmpDirectoryPropertyQuery);
-        setTmpDirectoryProperty.execute();
-        setTmpDirectoryProperty.close();
-
-        CallableStatement setErrorFileProperty =
-                connection.prepareCall(setErrorFilePropertyQuery);
-        setErrorFileProperty.execute();
-        setErrorFileProperty.close();
+        try (CallableStatement setTmpDirectoryProperty =
+                     connection.prepareCall(setTmpDirectoryPropertyQuery);
+             CallableStatement setErrorFileProperty =
+                     connection.prepareCall(setErrorFilePropertyQuery);) {
+             setTmpDirectoryProperty.execute();
+             setErrorFileProperty.execute();
+        }
     }
 
     public void close() {

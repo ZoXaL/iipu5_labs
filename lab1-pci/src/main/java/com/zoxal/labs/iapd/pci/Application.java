@@ -4,26 +4,26 @@ import com.zoxal.labs.iapd.pci.dao.PCIDevice;
 import dnl.utils.text.table.MapBasedTableModel;
 import dnl.utils.text.table.TextTable;
 import dnl.utils.text.table.TextTableModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Application {
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
     private PCIDataExtractor pciDataExtractor;
     public static void main(String[] args) {
-        Application app = new Application();
+        Application app = new Application(PCIDataExtractor.Factory.getPCIDataExtractor());
         app.run();
     }
 
-    public Application() {
-        pciDataExtractor = PCIDataExtractor.Factory.getPCIDataExtractor();
+    public Application(PCIDataExtractor pciDataExtractor) {
+        this.pciDataExtractor = pciDataExtractor;
     }
 
     public void run() {
-        if (pciDataExtractor == null) {
-            System.out.println("Internal application error.");
-        }
         try {
             List<PCIDevice> pciDevices = pciDataExtractor.getPCIDevices();
             List<Map> tableModelData = new ArrayList<>();
@@ -34,8 +34,7 @@ public class Application {
             TextTable tt = new TextTable(ttm);
             tt.printTable();
         } catch (Exception e) {
-            System.out.println("Internal application error");
-            e.printStackTrace();
+            log.error("Unexpected exception: ", e);
         }
     }
 
