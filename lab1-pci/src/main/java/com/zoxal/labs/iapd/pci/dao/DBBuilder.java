@@ -37,7 +37,6 @@ public class DBBuilder implements AutoCloseable {
         } catch (SQLException | IOException sqlException) {
             log.error("Exception during building db: ", sqlException);
         }
-//        deleteDBTmpDirectory();
     }
 
     public DBBuilder(String jdbcURL) throws SQLException, ClassNotFoundException {
@@ -205,12 +204,6 @@ public class DBBuilder implements AutoCloseable {
                 connection.prepareCall(setErrorFilePropertyQuery);
         setErrorFileProperty.execute();
         setErrorFileProperty.close();
-    }
-
-    protected void deleteDBTmpDirectory() {
-        File tmpDir = new File("classpath:devices/tmp");
-        System.out.println(tmpDir.isDirectory());
-        tmpDir.delete();
     }
 
     public void close() {
