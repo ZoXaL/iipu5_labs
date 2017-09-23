@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zoxal.labs</groupId>
+    <artifactId>interfaces-and-PD</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+    <modules>
+        <module>lab1-pci</module>
+    </modules>
+
+    <properties>
+        <compiler.source.version>1.8</compiler.source.version>
+        <compiler.target.version>1.8</compiler.target.version>
+
+        <derby-jdbc-version>10.13.1.1</derby-jdbc-version>
+        <slf4j-version>1.7.25</slf4j-version>
+        <logback-classic-version>1.1.7</logback-classic-version>
+        <commons-http-client-version>3.1</commons-http-client-version>
+        <wmi-java-version>1.6</wmi-java-version>
+        <commons-io-version>2.5</commons-io-version>
+        <j-text-utils-version>0.3.4</j-text-utils-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+                <version>${derby-jdbc-version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback-classic-version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>${commons-http-client-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.profesorfalken</groupId>
+                <artifactId>WMI4Java</artifactId>
+                <version>${wmi-java-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.massisframework</groupId>
+                <artifactId>j-text-utils</artifactId>
+                <version>${j-text-utils-version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>clojars</id>
+            <name> j-interop-repo</name>
+            <url>http://clojars.org/repo/</url>
+        </repository>
+    </repositories>
+
+</project>

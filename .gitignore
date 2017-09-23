@@ -1,0 +1,6 @@
+.idea
+target
+**/resources/devices
+*.iml
+*.log
+
