@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.zoxal.labs.iapd.power.ui.UIController"
+      prefHeight="100.0" prefWidth="400.0"
+      spacing="10">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+
+    <HBox alignment="CENTER">
+        <Label text="Supplier: "/>
+        <Label fx:id="supplierLabel"/>
+    </HBox>
+    <HBox alignment="CENTER">
+        <Label text="Current capacity: "/>
+        <Label fx:id="currentCapacityLabel"/>
+    </HBox>
+    <HBox alignment="CENTER">
+        <Label text="Estimated time: "/>
+        <Label fx:id="estimatedDischargeTimeLabel"/>
+    </HBox>
+
+    <Separator orientation="HORIZONTAL"/>
+    <HBox alignment="CENTER">
+        <Label text="Dim timeout: "/>
+        <Label fx:id="dimTimeoutLabel"/>
+    </HBox>
+    <HBox alignment="CENTER">
+        <Slider min="5" max="605"
+                showTickLabels="true"
+                majorTickUnit="120"
+                prefWidth="350"
+                fx:id="dimTimeoutSlider"
+                onMouseReleased="#updateDimTimeout"
+        />
+    </HBox>
+</VBox>

@@ -4,12 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zoxal.labs</groupId>
+    <groupId>com.zoxal.labs.iapd</groupId>
     <artifactId>interfaces-and-PD</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
         <module>lab1-pci</module>
+        <module>lab3-power</module>
     </modules>
 
     <properties>
