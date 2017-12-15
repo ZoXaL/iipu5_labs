@@ -1,0 +1,1 @@
+sudo nmcli -f SSID,SIGNAL,SECURITY,BSSID dev wifi list

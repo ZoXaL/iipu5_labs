@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.sun.javafx.scene.control.skin.InputField?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.zoxal.labs.iapd.wifi.ui.UIController"
+            prefHeight="400.0" prefWidth="400.0">
+    <SplitPane dividerPositions="0.4"
+               AnchorPane.topAnchor="0.0"
+               AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0">
+        <TableView fx:id="connectionsTable">
+            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="connectionColumn" text="Product Name"/>
+            </columns>
+        </TableView>
+        <VBox alignment="CENTER" spacing="20">
+            <HBox alignment="CENTER">
+                <Label text="MAC: "/>
+                <Label fx:id="MAC" text="-"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="Level: "/>
+                <Label fx:id="connectionLevel" text="-"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="Auth type: "/>
+                <Label fx:id="authType" text="No info"/>
+            </HBox>
+            <Separator orientation="HORIZONTAL"/>
+            <TextArea fx:id="passwordField" maxHeight="20" maxWidth="200" promptText="password" editable="true"/>
+            <Button fx:id="connectBtn" text="Connect" onAction="#connect"/>
+        </VBox>
+    </SplitPane>
+</AnchorPane>
