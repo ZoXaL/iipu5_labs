@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.*?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.zoxal.labs.iapd.devices.ui.UIController"
+            prefHeight="400.0" prefWidth="600.0">
+    <SplitPane dividerPositions="0.4"
+               AnchorPane.topAnchor="0.0"
+               AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0">
+        <TableView fx:id="devicesTable">
+            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="deviceProductName" text="Product Name"/>
+            </columns>
+        </TableView>
+        <VBox alignment="CENTER" spacing="20">
+            <HBox alignment="CENTER">
+                <Label text="GUID: "/>
+                <Label fx:id="deviceGUID" text="No info"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="HardwareID: "/>
+                <Label fx:id="deviceHardwareId" text="No info"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="HardwareID: "/>
+                <Label fx:id="deviceDescription" text="No info"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="Manufacturer: "/>
+                <Label fx:id="deviceManufacturer" text="No info"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="Driver path: "/>
+                <Label fx:id="deviceDriverPath" text="No info"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="Driver info: "/>
+                <Label fx:id="deviceDriverInfo" text="No info"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="Driver author: "/>
+                <Label fx:id="deviceDriverAuthor" text="No info"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="Device path: "/>
+                <Label fx:id="devicePath" text="No info"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <ToggleSwitch fx:id="disableDeviceSwitch" prefWidth="100" text="Disable"/>
+            </HBox>
+        </VBox>
+    </SplitPane>
+</AnchorPane>
